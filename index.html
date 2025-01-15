@@ -9,13 +9,8 @@
   
   <style>
     :root {
-      /*
-         BRAND COLORS:
-         Venmo’s blue (#3D95CE),
-         Zelle’s purple (#5f259f).
-      */
-      --primary-color: #3D95CE; /* Venmo-ish Blue */
-      --secondary-color: #5f259f; /* Zelle-ish Purple */
+      --primary-color: #3D95CE; 
+      --secondary-color: #5f259f; 
       --accent-color: #FFFFFF;
       --background-color: #f0f2f5;
       --header-gradient-start: #3D95CE;
@@ -24,7 +19,6 @@
       --body-font: 'Roboto', sans-serif;
     }
 
-    /* Basic Reset */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -38,23 +32,21 @@
     }
 
     header {
-      /* Gradient combining Venmo’s blue and Zelle’s purple */
       background: linear-gradient(135deg, var(--header-gradient-start), var(--header-gradient-end));
-      padding: 30px;
+      padding: 20px;
       text-align: center;
       color: var(--accent-color);
     }
 
     header h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 10px;
     }
 
     header p {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
     }
 
-    /* Main Container */
     main {
       display: flex;
       flex-direction: column;
@@ -64,12 +56,11 @@
       padding: 20px;
     }
 
-    /* Card Sections */
     section {
       background-color: #fff;
       width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-bottom: 20px;
       padding: 20px;
       text-align: center;
@@ -77,65 +68,36 @@
 
     section h2 {
       margin-top: 0;
-      font-size: 1.8rem;
-      /* Subtle gradient text effect (optional) */
+      font-size: 2rem;
       background: -webkit-linear-gradient(var(--header-gradient-start), var(--header-gradient-end));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    /* Payment section: place two columns side by side on bigger screens */
     #payment .qr-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 30px;
       margin-top: 15px;
     }
 
     #payment .qr-box {
       text-align: center;
-      min-width: 200px;
+      min-width: 240px;
     }
 
     #payment img {
-      width: 200px;
-      max-width: 100%;
+      width: 240px;
       border-radius: 8px;
-      margin-top: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
 
-    /* Link styling */
-    a {
+    #payment p.tips {
+      margin-top: 20px;
+      font-size: 1.2rem;
       color: var(--secondary-color);
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* Buttons */
-    button {
-      background-color: var(--primary-color);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 15px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: var(--secondary-color);
-    }
-
-    /* Weather widget can take up the full width if needed */
-    #weather .weatherwidget-io {
-      width: 100% !important;
-      max-width: 450px;
-      margin: 0 auto;
-      display: block;
+      font-weight: bold;
     }
 
     footer {
@@ -146,13 +108,15 @@
       font-size: 0.9rem;
     }
 
-    /* Small screens adjustments */
     @media(max-width: 600px) {
-      section h2 {
-        font-size: 1.5rem;
-      }
       header h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
+      }
+      section h2 {
+        font-size: 1.6rem;
+      }
+      #payment img {
+        width: 180px;
       }
     }
   </style>
@@ -160,38 +124,32 @@
 
 <body>
   <header>
-    <h1>My Car Kiosk</h1>
-    <p>Quick Access to Spotify, Payments, Weather, and More!</p>
+    <h1>Welcome to My Car Kiosk</h1>
+    <p>Quick Access to Music, Payments, and Weather Updates</p>
   </header>
 
   <main>
-    <!-- Spotify Section -->
     <section id="spotify">
       <h2>Spotify Controls</h2>
-      <p>Search and play music here:</p>
+      <p>Search and play your favorite music:</p>
       <a href="https://open.spotify.com/" target="_blank">Open Spotify Web Player</a>
     </section>
 
-    <!-- Payment Section -->
     <section id="payment">
       <h2>Payment QR Codes</h2>
+      <p class="tips">Tips are appreciated! Thank you for your generosity!</p>
       <div class="qr-container">
-        <!-- Venmo -->
         <div class="qr-box">
           <h3>Venmo</h3>
-          <!-- Make sure the image file name/path matches exactly what's in your repo -->
           <img src="venmo-qr.png" alt="Venmo QR">
         </div>
-        <!-- Zelle -->
         <div class="qr-box">
           <h3>Zelle</h3>
-          <!-- Make sure the image file name/path matches exactly what's in your repo -->
           <img src="zelle-qr.png" alt="Zelle QR">
         </div>
       </div>
     </section>
 
-    <!-- Weather Section -->
     <section id="weather">
       <h2>Weather</h2>
       <a class="weatherwidget-io"
@@ -202,66 +160,20 @@
          FRESNO WEATHER
       </a>
       <script>
-      !function(d,s,id){
-        var js,fjs=d.getElementsByTagName(s)[0];
-        if(!d.getElementById(id)){
-          js=d.createElement(s);
-          js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';
-          fjs.parentNode.insertBefore(js,fjs);
-        }
-      }(document,'script','weatherwidget-io-js');
+        !function(d,s,id){
+          var js,fjs=d.getElementsByTagName(s)[0];
+          if(!d.getElementById(id)){
+            js=d.createElement(s);
+            js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';
+            fjs.parentNode.insertBefore(js,fjs);
+          }
+        }(document,'script','weatherwidget-io-js');
       </script>
-    </section>
-
-    <!-- Location Section -->
-    <section id="location">
-      <h2>Current Location</h2>
-      <button onclick="getLocation()">Show My Location</button>
-      <p id="location-info"></p>
     </section>
   </main>
 
   <footer>
-    <p>Car Kiosk Page &bull; Created by [Your Name]</p>
+    <p>Car Kiosk by Edward • All Rights Reserved</p>
   </footer>
-
-  <!-- Geolocation Script -->
-  <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-      } else {
-        document.getElementById("location-info").innerText = 
-          "Geolocation is not supported by this browser.";
-      }
-    }
-
-    function showPosition(position) {
-      document.getElementById("location-info").innerText =
-        "Latitude: " + position.coords.latitude + 
-        ", Longitude: " + position.coords.longitude;
-    }
-
-    function showError(error) {
-      switch(error.code) {
-        case error.PERMISSION_DENIED:
-          document.getElementById("location-info").innerText = 
-            "User denied the request for Geolocation.";
-          break;
-        case error.POSITION_UNAVAILABLE:
-          document.getElementById("location-info").innerText = 
-            "Location information is unavailable.";
-          break;
-        case error.TIMEOUT:
-          document.getElementById("location-info").innerText =
-            "The request to get user location timed out.";
-          break;
-        case error.UNKNOWN_ERROR:
-          document.getElementById("location-info").innerText =
-            "An unknown error occurred.";
-          break;
-      }
-    }
-  </script>
 </body>
 </html>
