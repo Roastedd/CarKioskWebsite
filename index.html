@@ -12,7 +12,9 @@
       --primary-color: #3D95CE; 
       --secondary-color: #5f259f; 
       --accent-color: #FFFFFF;
-      --background-color: #f0f2f5;
+      --background-color: #2D2D2D; /* Darker background for reduced strain */
+      --card-background: #3C3C3C; /* Softer card background */
+      --text-color: #EAEAEA; /* Light text for better contrast */
       --header-gradient-start: #3D95CE;
       --header-gradient-end: #5f259f;
       --heading-font: 'Roboto', sans-serif;
@@ -28,7 +30,7 @@
     body {
       font-family: var(--body-font);
       background-color: var(--background-color);
-      color: #333;
+      color: var(--text-color);
     }
 
     header {
@@ -57,10 +59,10 @@
     }
 
     section {
-      background-color: #fff;
+      background-color: var(--card-background);
       width: 100%;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       margin-bottom: 20px;
       padding: 20px;
       text-align: center;
@@ -90,7 +92,7 @@
     #payment img {
       width: 240px;
       border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.5);
     }
 
     #payment p.tips {
@@ -101,11 +103,21 @@
     }
 
     footer {
-      background-color: #fff;
+      background-color: var(--card-background);
       text-align: center;
       padding: 10px;
-      color: #666;
+      color: var(--text-color);
       font-size: 0.9rem;
+      border-top: 1px solid #555;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     @media(max-width: 600px) {
