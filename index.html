@@ -6,17 +6,19 @@
   <title>My Car Kiosk</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
   <style>
     :root {
-      --primary-color: #3D95CE; 
-      --secondary-color: #5f259f; 
+      --primary-color: #3D95CE;
+      --secondary-color: #5f259f;
       --accent-color: #FFFFFF;
-      --background-color: #2D2D2D; /* Darker background for reduced strain */
-      --card-background: #3C3C3C; /* Softer card background */
-      --text-color: #EAEAEA; /* Light text for better contrast */
-      --header-gradient-start: #3D95CE;
-      --header-gradient-end: #5f259f;
+      --background-color: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      --card-background: #3C3C3C;
+      --text-color: #EAEAEA;
+      --button-color: #5f259f;
+      --button-hover: #4b1e7d;
+      --shadow-color: rgba(0, 0, 0, 0.2);
       --heading-font: 'Roboto', sans-serif;
       --body-font: 'Roboto', sans-serif;
     }
@@ -29,24 +31,39 @@
 
     body {
       font-family: var(--body-font);
-      background-color: var(--background-color);
+      background: var(--background-color);
       color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    header {
-      background: linear-gradient(135deg, var(--header-gradient-start), var(--header-gradient-end));
-      padding: 20px;
-      text-align: center;
-      color: var(--accent-color);
+    nav {
+      position: sticky;
+      top: 0;
+      background-color: var(--card-background);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      box-shadow: 0 2px 4px var(--shadow-color);
+      z-index: 10;
     }
 
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+    nav h1 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
     }
 
-    header p {
-      font-size: 1.2rem;
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 1rem;
+      margin-left: 15px;
+    }
+
+    nav a:hover {
+      color: var(--primary-color);
     }
 
     main {
@@ -62,18 +79,40 @@
       background-color: var(--card-background);
       width: 100%;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px var(--shadow-color);
       margin-bottom: 20px;
       padding: 20px;
       text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
 
     section h2 {
       margin-top: 0;
       font-size: 2rem;
-      background: -webkit-linear-gradient(var(--header-gradient-start), var(--header-gradient-end));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--primary-color);
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: var(--button-color);
+      color: var(--accent-color);
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: var(--button-hover);
     }
 
     #payment .qr-container {
@@ -84,67 +123,39 @@
       margin-top: 15px;
     }
 
-    #payment .qr-box {
-      text-align: center;
-      min-width: 240px;
-    }
-
     #payment img {
       width: 240px;
       border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.5);
-    }
-
-    #payment p.tips {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      color: var(--secondary-color);
-      font-weight: bold;
+      box-shadow: 0 3px 8px var(--shadow-color);
     }
 
     footer {
-      background-color: var(--card-background);
+      margin-top: auto;
       text-align: center;
-      padding: 10px;
+      padding: 15px;
+      background-color: var(--card-background);
       color: var(--text-color);
       font-size: 0.9rem;
-      border-top: 1px solid #555;
-    }
-
-    a {
-      color: var(--primary-color);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    @media(max-width: 600px) {
-      header h1 {
-        font-size: 2rem;
-      }
-      section h2 {
-        font-size: 1.6rem;
-      }
-      #payment img {
-        width: 180px;
-      }
+      box-shadow: 0 -2px 4px var(--shadow-color);
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1>Welcome to My Car Kiosk</h1>
-    <p>Quick Access to Music, Payments, and Weather Updates</p>
-  </header>
+  <nav>
+    <h1>My Car Kiosk</h1>
+    <div>
+      <a href="#spotify">Spotify</a>
+      <a href="#payment">Payment</a>
+      <a href="#weather">Weather</a>
+    </div>
+  </nav>
 
   <main>
     <section id="spotify">
       <h2>Spotify Controls</h2>
       <p>Search and play your favorite music:</p>
-      <a href="https://open.spotify.com/" target="_blank">Open Spotify Web Player</a>
+      <a class="button" href="https://open.spotify.com/" target="_blank">Open Spotify Web Player</a>
     </section>
 
     <section id="payment">
