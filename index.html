@@ -6,7 +6,292 @@
   <title>Car Kiosk Page</title>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Car Kiosk Page</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   
+  <style>
+    :root {
+      --primary-color: #007BFF;
+      --secondary-color: #6c757d;
+      --background-color: #f2f2f2;
+      --heading-font: 'Roboto', sans-serif;
+      --body-font: 'Roboto', sans-serif;
+    }
+
+    /* Global Reset / Base Styles */
+    body {
+      font-family: var(--body-font);
+      margin: 0;
+      padding: 0;
+      background-color: var(--background-color);
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background-color: var(--primary-color);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 1.1rem;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Header with a gradient background */
+    header {
+      background: linear-gradient(135deg, #1E88E5, #00ACC1);
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-weight: bold;
+      font-size: 2.5rem;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* Main Container */
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Section styling */
+    section {
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+    }
+
+    section h2 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      color: var(--primary-color);
+    }
+
+    /* Payment QR code containers */
+    #payment div {
+      display: inline-block;
+      margin: 10px;
+      text-align: center;
+    }
+
+    /* Button styling */
+    button {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Footer styling */
+    footer {
+      background-color: #fff;
+      padding: 10px;
+      text-align: center;
+      color: var(--secondary-color);
+      font-size: 0.9rem;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Weather widget can take up the full width (adjust as needed) */
+    #weather .weatherwidget-io {
+      width: 100% !important;
+      max-width: 450px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      header p {
+        font-size: 1rem;
+      }
+
+      section h2 {
+        font-size: 1.5rem;
+      }
+
+      button {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div>
+      <a href="#spotify"><i class="fas fa-music"></i> Spotify</a>
+      <a href="#payment"><i class="fas fa-qrcode"></i> Payments</a>
+      <a href="#weather"><i class="fas fa-cloud-sun"></i> Weather</a>
+      <a href="#location"><i class="fas fa-map-marker-alt"></i> Location</a>
+    </div>
+  </nav>
+
+  <header>
+    <h1>My Car Kiosk</h1>
+    <p>Quick Access to Spotify, Payments, Weather, and More!</p>
+  </header>
+
+  <main>
+    <!-- Spotify Section -->
+    <section id="spotify">
+      <h2>Spotify Controls</h2>
+      <p>Search and play music here:</p>
+      <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
+        Open Spotify Web Player
+      </a>
+    </section>
+
+    <!-- Payment Section -->
+    <section id="payment">
+      <h2>Payment QR Codes</h2>
+      <div>
+        <h3>Venmo</h3>
+        <img src="venmo-qr.png" alt="Venmo QR" width="200">
+      </div>
+      <div>
+        <h3>Zelle</h3>
+        <img src="zelle-qr.png" alt="Zelle QR" width="200">
+      </div>
+    </section>
+
+    <!-- Weather Section -->
+    <section id="weather">
+      <h2>Weather</h2>
+      <a class="weatherwidget-io" href="https://forecast7.com/en/37d77n122d42/san-francisco/?unit=us" 
+         data-label_1="SAN FRANCISCO" data-label_2="WEATHER" data-theme="original">
+         SAN FRANCISCO WEATHER
+      </a>
+      <a class="weatherwidget-io" href="https://forecast7.com/en/36d75n119d77/fresno/?unit=us" 
+         data-label_1="FRESNO" data-label_2="WEATHER" data-theme="original">
+         FRESNO WEATHER
+      </a>
+      <a class="weatherwidget-io" href="https://forecast7.com/en/37d30n120d48/merced/?unit=us" 
+         data-label_1="MERCED" data-label_2="WEATHER" data-theme="original">
+         MERCED WEATHER
+      </a>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location">
+      <h2>Current Location</h2>
+      <button onclick="getLocation()">Show My Location</button>
+      <p id="location-info"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Car Kiosk Page - Created by [Your Name]</p>
+  </footer>
+
+  <!-- Weather Widget Script: Called Once -->
+  <script>
+  !function(d,s,id){
+    var js,fjs=d.getElementsByTagName(s)[0];
+    if(!d.getElementById(id)){
+      js=d.createElement(s);
+      js.id=id; 
+      js.src='https://weatherwidget.io/js/widget.min.js';
+      fjs.parentNode.insertBefore(js,fjs);
+    }
+  }(document,'script','weatherwidget-io-js');
+  </script>
+
+  <!-- Geolocation Script -->
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        document.getElementById("location-info").innerText = 
+          "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      document.getElementById("location-info").innerText =
+        "Latitude: " + position.coords.latitude + 
+        ", Longitude: " + position.coords.longitude;
+    }
+
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          document.getElementById("location-info").innerText = 
+            "User denied the request for Geolocation.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          document.getElementById("location-info").innerText = 
+            "Location information is unavailable.";
+          break;
+        case error.TIMEOUT:
+          document.getElementById("location-info").innerText =
+            "The request to get user location timed out.";
+          break;
+        case error.UNKNOWN_ERROR:
+          document.getElementById("location-info").innerText =
+            "An unknown error occurred.";
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
   <style>
     :root {
       --primary-color: #007BFF;
