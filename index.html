@@ -46,10 +46,11 @@
       text-decoration: none;
       margin: 0 10px;
       font-size: 1.1rem;
+      transition: color 0.3s;
     }
 
     nav a:hover {
-      text-decoration: underline;
+      color: #ffeb3b;
     }
 
     /* Header with a gradient background */
@@ -65,11 +66,13 @@
       margin: 0;
       font-weight: bold;
       font-size: 2.5rem;
+      animation: fadeInDown 1s ease-in-out;
     }
 
     header p {
       margin-top: 10px;
       font-size: 1.2rem;
+      animation: fadeInUp 1s ease-in-out;
     }
 
     /* Main Container */
@@ -91,11 +94,12 @@
       width: 100%;
       padding: 20px;
       text-align: center;
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     section:hover {
       transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
 
     section h2 {
@@ -120,11 +124,12 @@
       padding: 10px 15px;
       cursor: pointer;
       font-size: 1rem;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.3s;
     }
 
     button:hover {
       background-color: #0056b3;
+      transform: scale(1.05);
     }
 
     /* Footer styling */
@@ -162,6 +167,29 @@
       button {
         font-size: 0.9rem;
         padding: 8px 12px;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
