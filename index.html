@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Car Kiosk Page</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <!-- Spotify SDK -->
@@ -13,29 +13,28 @@
   
   <style>
     :root {
-      --primary-color: #007BFF;
-      --secondary-color: #6c757d;
-      --background-color: #2c3e50;
-      --card-background-color: #34495e;
-      --text-color: #ecf0f1;
-      --heading-font: 'Roboto', sans-serif;
-      --body-font: 'Roboto', sans-serif;
+      --primary-color: #1DB954; /* Spotify Green */
+      --secondary-color: #121212; /* Dark Background */
+      --card-background-color: #181818; /* Slightly lighter dark */
+      --contrast-color: #FF4081; /* Bright pink for contrast */
+      --text-color: #FFFFFF; /* White text */
+      --muted-text-color: #B3B3B3; /* Muted text */
+      --heading-font: 'Poppins', sans-serif;
+      --body-font: 'Poppins', sans-serif;
     }
 
-    /* Global Reset / Base Styles */
     body {
       font-family: var(--body-font);
       margin: 0;
       padding: 0;
-      background-color: var(--background-color);
+      background-color: var(--secondary-color);
       color: var(--text-color);
       line-height: 1.6;
     }
 
-    /* Navigation Bar */
     nav {
-      background-color: var(--primary-color);
-      color: #fff;
+      background-color: var(--card-background-color);
+      color: var(--text-color);
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
@@ -47,7 +46,7 @@
     }
 
     nav a {
-      color: #fff;
+      color: var(--text-color);
       text-decoration: none;
       margin: 0 10px;
       font-size: 1.1rem;
@@ -55,12 +54,11 @@
     }
 
     nav a:hover {
-      color: #ffeb3b;
+      color: var(--primary-color);
     }
 
-    /* Header with a gradient background */
     header {
-      background: linear-gradient(135deg, #1E88E5, #00ACC1);
+      background: linear-gradient(135deg, var(--primary-color), #00ACC1);
       color: #fff;
       padding: 40px 20px;
       text-align: center;
@@ -71,16 +69,13 @@
       margin: 0;
       font-weight: bold;
       font-size: 2.5rem;
-      animation: fadeInDown 1s ease-in-out;
     }
 
     header p {
       margin-top: 10px;
       font-size: 1.2rem;
-      animation: fadeInUp 1s ease-in-out;
     }
 
-    /* Main Container */
     main {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -90,10 +85,9 @@
       margin: 0 auto;
     }
 
-    /* Section styling */
     section {
       background-color: var(--card-background-color);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       border-radius: 8px;
       padding: 20px;
       text-align: center;
@@ -102,18 +96,13 @@
 
     section:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
     }
 
     section h2 {
       margin-top: 0;
       font-size: 1.8rem;
       color: var(--primary-color);
-    }
-
-    /* Spotify Section */
-    #spotify {
-      grid-column: 1 / -1;
     }
 
     .trending-container {
@@ -137,17 +126,9 @@
       transform: scale(1.05);
     }
 
-    /* Payment QR code containers */
-    #payment div {
-      display: inline-block;
-      margin: 10px;
-      text-align: center;
-    }
-
-    /* Button styling */
     button {
       background-color: var(--primary-color);
-      color: #fff;
+      color: var(--text-color);
       border: none;
       border-radius: 4px;
       padding: 10px 15px;
@@ -157,70 +138,22 @@
     }
 
     button:hover {
-      background-color: #0056b3;
+      background-color: var(--contrast-color);
       transform: scale(1.05);
     }
 
-    /* Footer styling */
     footer {
       background-color: var(--card-background-color);
       padding: 10px;
       text-align: center;
-      color: var(--text-color);
+      color: var(--muted-text-color);
       font-size: 0.9rem;
       box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Weather widget styling */
-    #weather .weatherwidget-io {
-      width: 100% !important;
-      max-width: 450px;
-      margin: 0 auto;
-      display: block;
-    }
-
-    /* Animations */
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      header h1 { font-size: 2rem; }
-      header p { font-size: 1rem; }
-      section h2 { font-size: 1.5rem; }
-      button {
-        font-size: 0.9rem;
-        padding: 8px 12px;
-      }
-    }
-
-    /* Tablet Landscape */
     @media (min-width: 768px) and (orientation: landscape) {
       main {
         grid-template-columns: repeat(2, 1fr);
-      }
-      
-      #spotify, #weather {
-        grid-column: 1 / -1;
       }
     }
   </style>
@@ -241,9 +174,9 @@
   </header>
 
   <main>
-    <!-- Spotify Section -->
     <section id="spotify">
       <h2>Music</h2>
+      <button onclick="authenticateSpotify()">Log in with Spotify</button>
       <div class="trending-section">
         <h3>Trending Playlists</h3>
         <div class="trending-container" id="trending-playlists"></div>
@@ -252,48 +185,6 @@
         <h3>Top Artists</h3>
         <div class="trending-container" id="trending-artists"></div>
       </div>
-      <a href="https://open.spotify.com/" class="button" target="_blank" rel="noopener noreferrer">
-        Open Spotify Web Player
-      </a>
-    </section>
-
-    <!-- Payment Section -->
-    <section id="payment">
-      <h2>Payment QR Codes</h2>
-      <div>
-        <h3>Venmo</h3>
-        <img src="venmo-qr.png" alt="Venmo QR" width="200">
-      </div>
-      <div>
-        <h3>Zelle</h3>
-        <img src="zelle-qr.png" alt="Zelle QR" width="200">
-      </div>
-    </section>
-
-    <!-- Weather Section -->
-    <section id="weather">
-      <h2>Weather</h2>
-      <div class="weather-container">
-        <a class="weatherwidget-io" href="https://forecast7.com/en/37d77n122d42/san-francisco/?unit=us" 
-           data-label_1="SAN FRANCISCO" data-label_2="WEATHER" data-theme="dark">
-           SAN FRANCISCO WEATHER
-        </a>
-        <a class="weatherwidget-io" href="https://forecast7.com/en/36d75n119d77/fresno/?unit=us" 
-           data-label_1="FRESNO" data-label_2="WEATHER" data-theme="dark">
-           FRESNO WEATHER
-        </a>
-        <a class="weatherwidget-io" href="https://forecast7.com/en/37d30n120d48/merced/?unit=us" 
-           data-label_1="MERCED" data-label_2="WEATHER" data-theme="dark">
-           MERCED WEATHER
-        </a>
-      </div>
-    </section>
-
-    <!-- Location Section -->
-    <section id="location">
-      <h2>Current Location</h2>
-      <button onclick="getLocation()">Show My Location</button>
-      <p id="location-info"></p>
     </section>
   </main>
 
@@ -301,56 +192,45 @@
     <p>Car Kiosk Page - Created with ❤️</p>
   </footer>
 
-  <!-- Weather Widget Script -->
   <script>
-  !function(d,s,id){
-    var js,fjs=d.getElementsByTagName(s)[0];
-    if(!d.getElementById(id)){
-      js=d.createElement(s);
-      js.id=id; 
-      js.src='https://weatherwidget.io/js/widget.min.js';
-      fjs.parentNode.insertBefore(js,fjs);
-    }
-  }(document,'script','weatherwidget-io-js');
-  </script>
+    let accessToken = '';
 
-  <!-- Geolocation Script -->
-  <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-      } else {
-        document.getElementById("location-info").innerText = 
-          "Geolocation is not supported by this browser.";
+    function authenticateSpotify() {
+      const clientId = '0fe044f5fd04451e9db16e24954b1fc0';
+      const redirectUri = window.location.origin;
+      const scopes = 'user-top-read';
+      const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}`;
+
+      window.location = authUrl;
+    }
+
+    function fetchSpotifyData() {
+      if (!accessToken) return;
+
+      fetch('https://api.spotify.com/v1/me/top/artists', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('trending-artists');
+        data.items.forEach(artist => {
+          const div = document.createElement('div');
+          div.className = 'trending-item';
+          div.innerHTML = `<p>${artist.name}</p>`;
+          container.appendChild(div);
+        });
+      });
+    }
+
+    window.onload = () => {
+      const hash = window.location.hash;
+      if (hash && hash.includes('access_token')) {
+        accessToken = new URLSearchParams(hash.substring(1)).get('access_token');
+        fetchSpotifyData();
       }
-    }
-
-    function showPosition(position) {
-      document.getElementById("location-info").innerText =
-        "Latitude: " + position.coords.latitude + 
-        ", Longitude: " + position.coords.longitude;
-    }
-
-    function showError(error) {
-      switch(error.code) {
-        case error.PERMISSION_DENIED:
-          document.getElementById("location-info").innerText = 
-            "User denied the request for Geolocation.";
-          break;
-        case error.POSITION_UNAVAILABLE:
-          document.getElementById("location-info").innerText = 
-            "Location information is unavailable.";
-          break;
-        case error.TIMEOUT:
-          document.getElementById("location-info").innerText =
-            "The request to get user location timed out.";
-          break;
-        case error.UNKNOWN_ERROR:
-          document.getElementById("location-info").innerText =
-            "An unknown error occurred.";
-          break;
-      }
-    }
+    };
   </script>
 </body>
 </html>
