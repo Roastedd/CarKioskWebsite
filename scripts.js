@@ -42,21 +42,22 @@ function fetchTopSongs() {
     .catch(error => console.error('Error fetching top songs:', error));
 }
 
-// Inspirational Quotes
-function fetchInspirationalQuote() {
-  fetch('https://api.quotable.io/random?tags=inspirational')
-    .then(response => response.json())
-    .then(data => {
-      document.querySelectorAll('.inspiration-quote').forEach(container => {
-        container.textContent = `"${data.content}" - ${data.author}`;
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching quote:', error);
-      document.querySelectorAll('.inspiration-quote').forEach(container => {
-        container.textContent = "Enjoy the journey, not just the destination.";
-      });
-    });
+// Replace the fetchInspirationalQuote function with:
+function fetchPaymentQuotes() {
+  const lifeAdvice = [
+    "Pro tip: Always check for toilet paper before starting a road trip.",
+    "Life hack: The best naps happen in moving vehicles. Science says so!",
+    "Remember: You can't buy happiness, but you can tip your driver. Close enough!",
+    "Wisdom: If you snooze, you lose... but car naps are always a win!",
+    "Fact: 100% of people who drive with music live 100% more awesome lives.",
+    "Advice: Never trust a GPS that says 'shortcut' through a cornfield.",
+    "Truth: The best conversations start with 'So, how's life?' in a moving car.",
+    "Note: If you sing off-key, the car acoustics will magically fix it. Promise!"
+  ];
+  
+  document.querySelectorAll('.payment-advice').forEach(container => {
+    container.textContent = lifeAdvice[Math.floor(Math.random() * lifeAdvice.length)];
+  });
 }
 
 // Leaflet Map Implementation
