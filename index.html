@@ -77,9 +77,10 @@
     }
 
     header {
-      padding: 3rem 2rem;
+      padding: 4rem 2rem;
       text-align: center;
       margin-bottom: var(--section-spacing);
+      background: linear-gradient(135deg, var(--primary-color), #00ACC1);
     }
 
     header h1 {
@@ -87,6 +88,7 @@
       font-weight: 700;
       font-size: 2.5rem;
       letter-spacing: -0.5px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     header p {
@@ -113,11 +115,16 @@
       padding: 1.5rem;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
     }
 
     section h2 {
       margin: 0 0 1.5rem;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 600;
       color: var(--primary-color);
       display: flex;
@@ -149,6 +156,7 @@
     .qr-container {
       display: grid;
       gap: 1.5rem;
+      margin-top: 1rem;
     }
 
     .qr-item {
@@ -199,6 +207,12 @@
       width: 100%;
     }
 
+    .weather-container {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
     footer {
       background: rgba(24, 24, 24, 0.8);
       backdrop-filter: var(--ios-blur);
@@ -226,6 +240,11 @@
       
       nav a {
         padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      header {
+        padding: 3rem 1rem;
       }
     }
   </style>
@@ -241,17 +260,58 @@
   </nav>
 
   <header>
-    <h1>Car Kiosk</h1>
-    <p>Your Smart Driving Companion</p>
+    <h1>My Car Kiosk</h1>
+    <p>Quick Access to Spotify, Payments, Weather, and More!</p>
   </header>
 
   <main>
-    <!-- Sections remain similar but updated for iOS style -->
+    <section id="spotify">
+      <h2><i class="fas fa-music"></i>Music</h2>
+      <button onclick="authenticateSpotify()">
+        <i class="fab fa-spotify"></i>
+        Log in with Spotify
+      </button>
+      <div class="trending-section">
+        <h3>Trending Playlists</h3>
+        <div class="trending-container" id="trending-playlists"></div>
+      </div>
+      <div class="trending-section">
+        <h3>Top Artists</h3>
+        <div class="trending-container" id="trending-artists"></div>
+      </div>
+    </section>
+
+    <section id="payment">
+      <h2><i class="fas fa-qrcode"></i>Payment QR Codes</h2>
+      <div class="qr-container">
+        <div class="qr-item">
+          <h3>Venmo</h3>
+          <img src="venmo-qr.png" alt="Venmo QR Code">
+        </div>
+        <div class="qr-item">
+          <h3>Zelle</h3>
+          <img src="zelle-qr.png" alt="Zelle QR Code">
+        </div>
+      </div>
+    </section>
+
+    <section id="weather">
+      <h2><i class="fas fa-cloud-sun"></i>Weather</h2>
+      <div class="weather-container">
+        <a class="weatherwidget-io" href="https://forecast7.com/en/37d77n122d42/san-francisco/?unit=us" 
+           data-label_1="SAN FRANCISCO" data-label_2="WEATHER" data-theme="dark"></a>
+        <a class="weatherwidget-io" href="https://forecast7.com/en/36d75n119d77/fresno/?unit=us" 
+           data-label_1="FRESNO" data-label_2="WEATHER" data-theme="dark"></a>
+        <a class="weatherwidget-io" href="https://forecast7.com/en/37d30n120d48/merced/?unit=us" 
+           data-label_1="MERCED" data-label_2="WEATHER" data-theme="dark"></a>
+      </div>
+    </section>
+
     <section id="location">
-      <h2><i class="fas fa-map-marker-alt"></i>Live Location</h2>
+      <h2><i class="fas fa-map-marker-alt"></i>Current Location</h2>
       <button onclick="getLocation()">
         <i class="fas fa-location-arrow"></i>
-        Update Location
+        Show My Location
       </button>
       <div id="map-container">
         <div id="map"></div>
@@ -260,12 +320,23 @@
   </main>
 
   <footer>
-    <p>Car Kiosk • Designed for Touch</p>
+    <p>Car Kiosk Page - Created with ❤️</p>
   </footer>
 
   <script>
+    !function(d,s,id){
+      var js,fjs=d.getElementsByTagName(s)[0];
+      if(!d.getElementById(id)){
+        js=d.createElement(s);
+        js.id=id; 
+        js.src='https://weatherwidget.io/js/widget.min.js';
+        fjs.parentNode.insertBefore(js,fjs);
+      }
+    }(document,'script','weatherwidget-io-js');
+
     let map;
     let marker;
+    let accessToken = '';
 
     function initMap(lat, lng) {
       const mapOptions = {
@@ -276,11 +347,7 @@
           { elementType: "geometry", stylers: [{ color: "#242424" }] },
           { elementType: "labels.text.stroke", stylers: [{ color: "#242424" }] },
           { elementType: "labels.text.fill", stylers: [{ color: "#ffffff" }] },
-          {
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [{ color: "#383838" }]
-          }
+          { featureType: "road", elementType: "geometry", stylers: [{ color: "#383838" }] }
         ]
       };
 
@@ -315,7 +382,50 @@
       }
     }
 
-    // Keep existing Spotify and other functions
+    function showError(error) {
+      const errorMessages = {
+        [error.PERMISSION_DENIED]: "User denied the request for Geolocation.",
+        [error.POSITION_UNAVAILABLE]: "Location information is unavailable.",
+        [error.TIMEOUT]: "The request to get user location timed out.",
+        [error.UNKNOWN_ERROR]: "An unknown error occurred."
+      };
+      alert(errorMessages[error.code] || "Unknown error occurred");
+    }
+
+    function authenticateSpotify() {
+      const clientId = 'YOUR_SPOTIFY_CLIENT_ID';
+      const redirectUri = window.location.origin;
+      const scopes = 'user-top-read';
+      const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}`;
+      window.location = authUrl;
+    }
+
+    function fetchSpotifyData() {
+      if (!accessToken) return;
+
+      fetch('https://api.spotify.com/v1/me/top/artists', {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('trending-artists');
+        container.innerHTML = '';
+        data.items.forEach(artist => {
+          const div = document.createElement('div');
+          div.className = 'trending-item';
+          div.innerHTML = `<p>${artist.name}</p>`;
+          container.appendChild(div);
+        });
+      });
+    }
+
+    window.onload = () => {
+      const hash = window.location.hash;
+      if (hash && hash.includes('access_token')) {
+        accessToken = new URLSearchParams(hash.substring(1)).get('access_token');
+        fetchSpotifyData();
+      }
+    };
   </script>
 </body>
 </html>
