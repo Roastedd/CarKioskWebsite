@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+@import url('https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
+
+:root {
+  --primary-color: #1DB954;
+  --secondary-color: #121212;
+  --card-background-color: #181818;
+  --contrast-color: #FF4081;
+  --text-color: #FFFFFF;
+  --muted-text-color: #B3B3B3;
+  --heading-font: 'Poppins', sans-serif;
+  --body-font: 'Poppins', sans-serif;
+  --section-spacing: 2rem;
+  --ios-blur: blur(20px);
+}
+
+body {
+  font-family: var(--body-font);
+  margin: 0;
+  padding: 0;
+  background: var(--secondary-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+}
+
+nav {
+  background: rgba(24, 24, 24, 0.8);
+  backdrop-filter: var(--ios-blur);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+}
+
+nav a {
+  color: var(--muted-text-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+nav a.active,
+nav a:hover {
+  color: var(--primary-color);
+  background: rgba(29, 185, 84, 0.1);
+}
+
+header {
+  padding: 4rem 2rem;
+  text-align: center;
+  margin-bottom: var(--section-spacing);
+  background: linear-gradient(135deg, var(--primary-color), #00ACC1);
+}
+
+header h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2.5rem;
+  letter-spacing: -0.5px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header p {
+  margin: 1rem auto 0;
+  font-size: 1.1rem;
+  max-width: 600px;
+  opacity: 0.8;
+}
+
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+  max-width: 1400px;
+  margin: 0 auto 2rem;
+  width: 95%;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: var(--ios-blur);
+  border-radius: 18px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+section:hover {
+  transform: translateY(-5px);
+}
+
+section h2 {
+  margin: 0 0 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spotify-button {
+  width: 100%;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.qr-container {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.qr-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.qr-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.qr-text {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.qr-text h4 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+.qr-text p {
+  margin: 0.25rem 0;
+  color: var(--muted-text-color);
+  font-size: 0.9rem;
+}
+
+.inspiration-quote {
+  font-style: italic;
+  color: var(--muted-text-color);
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.qr-item img {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+#map-container {
+  height: 300px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ios-list {
+  background: var(--card-background-color);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.ios-list-item {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: background 0.3s ease;
+}
+
+.ios-list-item:last-child {
+  border-bottom: none;
+}
+
+.ios-list-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.song-number {
+  color: var(--muted-text-color);
+  width: 24px;
+  text-align: center;
+}
+
+.song-info {
+  flex: 1;
+}
+
+.song-title {
+  font-weight: 500;
+}
+
+.song-artist {
+  color: var(--muted-text-color);
+  font-size: 0.9em;
+}
+
+/* Notes Section Styles */
+.note-form {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.note-form textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.notes-list {
+  background: var(--card-background-color);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.note-item {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.9em;
+}
+
+.note-item:last-child {
+  border-bottom: none;
+}
+
+.note-date {
+  color: var(--muted-text-color);
+  font-size: 0.8em;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+    padding: 0 0.5rem;
+    gap: 1rem;
+  }
+  
+  section {
+    padding: 1.25rem;
+  }
+  
+  .nav-links {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  nav a {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  header {
+    padding: 3rem 1rem;
+  }
+  
+  .spotify-button {
+    font-size: 1rem;
+    padding: 1.2rem;
+  }
+}
