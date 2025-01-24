@@ -10,8 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <!-- Spotify SDK -->
-  <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
   <style>
     :root {
@@ -101,11 +99,12 @@
     main {
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-      padding: 0 1.5rem;
-      max-width: 1200px;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+      max-width: 1400px;
       margin: 0 auto 2rem;
+      width: 95%;
     }
 
     section {
@@ -130,6 +129,13 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
+    }
+
+    .spotify-button {
+      width: 100%;
+      padding: 1.5rem;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
     .trending-container {
@@ -218,7 +224,6 @@
       margin-top: auto;
     }
 
-    /* New iOS-style list */
     .ios-list {
       background: var(--card-background-color);
       border-radius: 12px;
@@ -262,19 +267,10 @@
       font-size: 0.9em;
     }
 
-    /* Spotify card click handling */
-    #spotify {
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    #spotify:hover {
-      box-shadow: 0 8px 32px rgba(29, 185, 84, 0.2);
-    }
-
     @media (max-width: 768px) {
       main {
-        padding: 0 1rem;
+        grid-template-columns: 1fr;
+        padding: 0 0.5rem;
         gap: 1rem;
       }
       
@@ -295,6 +291,11 @@
       header {
         padding: 3rem 1rem;
       }
+      
+      .spotify-button {
+        font-size: 1rem;
+        padding: 1.2rem;
+      }
     }
   </style>
 </head>
@@ -314,19 +315,15 @@
   </header>
 
   <main>
-    <section id="spotify" onclick="handleSpotifyClick(event)">
+    <section id="spotify">
       <h2><i class="fas fa-music"></i>Music</h2>
-      <button onclick="authenticateSpotify(event)">
+      <button class="spotify-button" onclick="window.location.href='spotify://'">
         <i class="fab fa-spotify"></i>
-        Log in with Spotify
+        Open Spotify
       </button>
       <div class="trending-section">
-        <h3>Top Songs</h3>
+        <h3>Top 10 Songs in US</h3>
         <div class="ios-list" id="top-songs"></div>
-      </div>
-      <div class="trending-section">
-        <h3>Top Artists</h3>
-        <div class="trending-container" id="trending-artists"></div>
       </div>
     </section>
 
@@ -385,58 +382,26 @@
     }(document,'script','weatherwidget-io-js');
 
     let map;
-    let accessToken = '';
 
-    // Spotify Deep Link Handler
-    function handleSpotifyClick(event) {
-      if (!event.target.closest('button')) {
-        window.location.href = 'spotify://';
-      }
-    }
-
-    // Spotify Authentication
-    function authenticateSpotify(event) {
-      event.stopPropagation();
-      const clientId = '0fe044f5fd04451e9db16e24954b1fc0';
-      const redirectUri = window.location.origin;
-      const scopes = 'user-top-read';
-      window.location = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}`;
-    }
-
-    // Fetch Top Songs
+    // Fetch Top Songs from iTunes API
     function fetchTopSongs() {
-      fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      })
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('top-songs');
-        container.innerHTML = data.items.map((track, index) => `
-          <div class="ios-list-item">
-            <div class="song-number">${index + 1}</div>
-            <div class="song-info">
-              <div class="song-title">${track.name}</div>
-              <div class="song-artist">${track.artists[0].name}</div>
+      fetch('https://itunes.apple.com/us/rss/topsongs/limit=10/json')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('top-songs');
+          const entries = data.feed.entry;
+          
+          container.innerHTML = entries.map((entry, index) => `
+            <div class="ios-list-item">
+              <div class="song-number">${index + 1}</div>
+              <div class="song-info">
+                <div class="song-title">${entry['im:name'].label}</div>
+                <div class="song-artist">${entry['im:artist'].label}</div>
+              </div>
             </div>
-          </div>
-        `).join('');
-      });
-    }
-
-    // Fetch Top Artists
-    function fetchTopArtists() {
-      fetch('https://api.spotify.com/v1/me/top/artists?limit=5', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      })
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('trending-artists');
-        container.innerHTML = data.items.map(artist => `
-          <div class="trending-item">
-            <p>${artist.name}</p>
-          </div>
-        `).join('');
-      });
+          `).join('');
+        })
+        .catch(error => console.error('Error fetching top songs:', error));
     }
 
     // Leaflet Map Implementation
@@ -485,12 +450,7 @@
 
     // Initialize on load
     window.onload = () => {
-      const hash = window.location.hash;
-      if (hash && hash.includes('access_token')) {
-        accessToken = new URLSearchParams(hash.substring(1)).get('access_token');
-        fetchTopArtists();
-        fetchTopSongs();
-      }
+      fetchTopSongs();
     };
   </script>
 </body>
