@@ -8,8 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <!-- Google Maps API -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
   <!-- Spotify SDK -->
   <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
@@ -202,11 +202,6 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    #map {
-      height: 100%;
-      width: 100%;
-    }
-
     .weather-container {
       display: grid;
       gap: 1rem;
@@ -221,6 +216,60 @@
       color: var(--muted-text-color);
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       margin-top: auto;
+    }
+
+    /* New iOS-style list */
+    .ios-list {
+      background: var(--card-background-color);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .ios-list-item {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .ios-list-item:last-child {
+      border-bottom: none;
+    }
+
+    .ios-list-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .song-number {
+      color: var(--muted-text-color);
+      width: 24px;
+      text-align: center;
+    }
+
+    .song-info {
+      flex: 1;
+    }
+
+    .song-title {
+      font-weight: 500;
+    }
+
+    .song-artist {
+      color: var(--muted-text-color);
+      font-size: 0.9em;
+    }
+
+    /* Spotify card click handling */
+    #spotify {
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #spotify:hover {
+      box-shadow: 0 8px 32px rgba(29, 185, 84, 0.2);
     }
 
     @media (max-width: 768px) {
@@ -265,15 +314,15 @@
   </header>
 
   <main>
-    <section id="spotify">
+    <section id="spotify" onclick="handleSpotifyClick(event)">
       <h2><i class="fas fa-music"></i>Music</h2>
-      <button onclick="authenticateSpotify()">
+      <button onclick="authenticateSpotify(event)">
         <i class="fab fa-spotify"></i>
         Log in with Spotify
       </button>
       <div class="trending-section">
-        <h3>Trending Playlists</h3>
-        <div class="trending-container" id="trending-playlists"></div>
+        <h3>Top Songs</h3>
+        <div class="ios-list" id="top-songs"></div>
       </div>
       <div class="trending-section">
         <h3>Top Artists</h3>
@@ -313,15 +362,16 @@
         <i class="fas fa-location-arrow"></i>
         Show My Location
       </button>
-      <div id="map-container">
-        <div id="map"></div>
-      </div>
+      <div id="map-container"></div>
     </section>
   </main>
 
   <footer>
     <p>Car Kiosk Page - Created with ❤️</p>
   </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
   <script>
     !function(d,s,id){
@@ -335,35 +385,78 @@
     }(document,'script','weatherwidget-io-js');
 
     let map;
-    let marker;
     let accessToken = '';
 
-    function initMap(lat, lng) {
-      const mapOptions = {
-        center: { lat, lng },
-        zoom: 15,
-        mapTypeId: 'roadmap',
-        styles: [
-          { elementType: "geometry", stylers: [{ color: "#242424" }] },
-          { elementType: "labels.text.stroke", stylers: [{ color: "#242424" }] },
-          { elementType: "labels.text.fill", stylers: [{ color: "#ffffff" }] },
-          { featureType: "road", elementType: "geometry", stylers: [{ color: "#383838" }] }
-        ]
-      };
+    // Spotify Deep Link Handler
+    function handleSpotifyClick(event) {
+      if (!event.target.closest('button')) {
+        window.location.href = 'spotify://';
+      }
+    }
 
-      map = new google.maps.Map(document.getElementById("map"), mapOptions);
-      
-      marker = new google.maps.Marker({
-        position: { lat, lng },
-        map,
-        title: "Your Location",
-        icon: {
-          url: `https://maps.google.com/mapfiles/ms/icons/green-dot.png`,
-          scaledSize: new google.maps.Size(40, 40)
-        }
+    // Spotify Authentication
+    function authenticateSpotify(event) {
+      event.stopPropagation();
+      const clientId = '0fe044f5fd04451e9db16e24954b1fc0';
+      const redirectUri = window.location.origin;
+      const scopes = 'user-top-read';
+      window.location = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}`;
+    }
+
+    // Fetch Top Songs
+    function fetchTopSongs() {
+      fetch('https://api.spotify.com/v1/me/top/tracks?limit=5', {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('top-songs');
+        container.innerHTML = data.items.map((track, index) => `
+          <div class="ios-list-item">
+            <div class="song-number">${index + 1}</div>
+            <div class="song-info">
+              <div class="song-title">${track.name}</div>
+              <div class="song-artist">${track.artists[0].name}</div>
+            </div>
+          </div>
+        `).join('');
       });
     }
 
+    // Fetch Top Artists
+    function fetchTopArtists() {
+      fetch('https://api.spotify.com/v1/me/top/artists?limit=5', {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('trending-artists');
+        container.innerHTML = data.items.map(artist => `
+          <div class="trending-item">
+            <p>${artist.name}</p>
+          </div>
+        `).join('');
+      });
+    }
+
+    // Leaflet Map Implementation
+    function initMap(lat, lng) {
+      map = L.map('map-container').setView([lat, lng], 15);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      L.marker([lat, lng], {
+        icon: L.icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41]
+        })
+      }).addTo(map);
+    }
+
+    // Geolocation
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -373,8 +466,7 @@
           if (!map) {
             initMap(lat, lng);
           } else {
-            map.setCenter({ lat, lng });
-            marker.setPosition({ lat, lng });
+            map.setView([lat, lng], 15);
           }
         }, showError);
       } else {
@@ -384,46 +476,20 @@
 
     function showError(error) {
       const errorMessages = {
-        [error.PERMISSION_DENIED]: "User denied the request for Geolocation.",
-        [error.POSITION_UNAVAILABLE]: "Location information is unavailable.",
-        [error.TIMEOUT]: "The request to get user location timed out.",
-        [error.UNKNOWN_ERROR]: "An unknown error occurred."
+        1: "User denied the request for Geolocation.",
+        2: "Location information is unavailable.",
+        3: "The request to get user location timed out."
       };
       alert(errorMessages[error.code] || "Unknown error occurred");
     }
 
-    function authenticateSpotify() {
-      const clientId = 'YOUR_SPOTIFY_CLIENT_ID';
-      const redirectUri = window.location.origin;
-      const scopes = 'user-top-read';
-      const authUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}`;
-      window.location = authUrl;
-    }
-
-    function fetchSpotifyData() {
-      if (!accessToken) return;
-
-      fetch('https://api.spotify.com/v1/me/top/artists', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      })
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('trending-artists');
-        container.innerHTML = '';
-        data.items.forEach(artist => {
-          const div = document.createElement('div');
-          div.className = 'trending-item';
-          div.innerHTML = `<p>${artist.name}</p>`;
-          container.appendChild(div);
-        });
-      });
-    }
-
+    // Initialize on load
     window.onload = () => {
       const hash = window.location.hash;
       if (hash && hash.includes('access_token')) {
         accessToken = new URLSearchParams(hash.substring(1)).get('access_token');
-        fetchSpotifyData();
+        fetchTopArtists();
+        fetchTopSongs();
       }
     };
   </script>
