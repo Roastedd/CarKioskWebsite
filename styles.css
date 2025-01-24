@@ -198,13 +198,15 @@ section h2 {
   font-size: 0.9rem;
 }
 
-.inspiration-quote {
-  font-style: italic;
+.payment-advice {
   color: var(--muted-text-color);
-  font-size: 0.85rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-style: italic;
+  text-align: center;
+  margin: -1rem auto 1.5rem;
+  padding: 0 1rem;
+  max-width: 600px;
+  font-size: 0.95em;
+  opacity: 0.8;
 }
 
 .qr-item img {
