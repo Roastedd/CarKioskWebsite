@@ -243,6 +243,48 @@
       font-size: 0.9em;
     }
 
+    /* Add this right before the @media (max-width: 768px) section */
+    .note-form {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .note-form textarea {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 1rem;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .notes-list {
+      background: var(--card-background-color);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    
+    .note-item {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9em;
+    }
+    
+    .note-item:last-child {
+      border-bottom: none;
+    }
+    
+    .note-date {
+      color: var(--muted-text-color);
+      font-size: 0.8em;
+      margin-top: 0.5rem;
+    }
+
     @media (max-width: 768px) {
       main {
         grid-template-columns: 1fr;
@@ -282,6 +324,7 @@
       <a href="#payment"><i class="fas fa-qrcode"></i>Payments</a>
       <a href="#weather"><i class="fas fa-cloud-sun"></i>Weather</a>
       <a href="#location"><i class="fas fa-map-marker-alt"></i>Location</a>
+      <a href="#notes"><i class="fas fa-comment-alt"></i>Notes</a>
     </div>
   </nav>
 
@@ -350,6 +393,17 @@
         Show My Location
       </button>
       <div id="map-container"></div>
+    </section>
+    
+    <section id="notes">
+      <h2><i class="fas fa-comment-alt"></i>Passenger Notes</h2>
+      <div class="note-form">
+        <textarea id="note-text" placeholder="Leave a note for your driver..."></textarea>
+        <button onclick="saveNote()">
+          <i class="fas fa-paper-plane"></i> Send Note
+        </button>
+      </div>
+      <div class="notes-list" id="notes-list"></div>
     </section>
   </main>
 
@@ -464,6 +518,46 @@
       };
       alert(errorMessages[error.code] || "Unknown error occurred");
     }
+
+    // Add this right before the "Initialize on load" comment
+    function saveNote() {
+      const noteText = document.getElementById('note-text').value;
+      if (!noteText) return;
+    
+      const notes = JSON.parse(localStorage.getItem('passengerNotes') || '[]');
+      const newNote = {
+        text: noteText,
+        date: new Date().toLocaleString()
+      };
+      notes.push(newNote);
+      localStorage.setItem('passengerNotes', JSON.stringify(notes));
+    
+      document.getElementById('note-text').value = '';
+      showNotes();
+      alert('Note saved successfully!');
+    }
+    
+    function showNotes() {
+      const notes = JSON.parse(localStorage.getItem('passengerNotes') || '[]');
+      const container = document.getElementById('notes-list');
+      container.innerHTML = notes.slice(-5).reverse().map(note => `
+        <div class="note-item">
+          <div>${note.text}</div>
+          <div class="note-date">${note.date}</div>
+        </div>
+      `).join('');
+    }
+    
+    // Then modify the window.onload to add showNotes():
+    window.onload = () => {
+      fetchTopSongs();
+      fetchInspirationalQuote();
+      showNotes(); // Add this line
+      
+      // Handle initial active state
+      const hash = window.location.hash || '#spotify';
+      document.querySelector(`a[href="${hash}"]`).classList.add('active');
+    };
 
     // Initialize on load
     window.onload = () => {
