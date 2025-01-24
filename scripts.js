@@ -136,7 +136,7 @@ function showNotes() {
 // Initialization
 window.addEventListener('DOMContentLoaded', () => {
   fetchTopSongs();
-  fetchInspirationalQuote();
+  fetchPaymentQuotes(); // Changed from inspirational quotes
   showNotes();
   
   // Handle initial active state
