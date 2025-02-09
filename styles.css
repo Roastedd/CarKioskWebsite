@@ -313,6 +313,13 @@ section h2 {
   margin-top: 0.5rem;
 }
 
+#currentDateTime {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.5rem 0;
+  font-weight: 400;
+}
+
 @media (max-width: 768px) {
   main {
     grid-template-columns: 1fr;
