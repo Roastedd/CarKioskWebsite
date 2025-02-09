@@ -19,11 +19,11 @@
 
   <header>
     <h1>My Car Kiosk</h1>
+    <div id="currentDateTime"></div>
     <p>Quick Access to Spotify, Payments, Weather, and More!</p>
   </header>
 
   <main>
-    <!-- All your sections remain exactly the same -->
     <section id="spotify">
       <h2><i class="fas fa-music"></i>Music</h2>
       <button class="spotify-button" onclick="window.location.href='spotify://'">
@@ -33,11 +33,11 @@
         <h3>Top 10 Songs in US</h3>
         <div class="ios-list" id="top-songs"></div>
       </div>
-    </section>
+    </section>     
 
     <section id="payment">
       <h2><i class="fas fa-qrcode"></i>Payment QR Codes</h2>
-      <div class="payment-advice"></div> <!-- Add this line -->
+      <div class="payment-advice"></div>
       <div class="qr-container">
         <div class="qr-item">
           <div class="qr-item-content">
@@ -74,9 +74,6 @@
 
     <section id="location">
       <h2><i class="fas fa-map-marker-alt"></i>Current Location</h2>
-      <button onclick="getLocation()">
-        <i class="fas fa-location-arrow"></i> Show My Location
-      </button>
       <div id="map-container"></div>
     </section>
     
@@ -93,10 +90,9 @@
   </main>
 
   <footer>
-    <p>Car Kiosk Page - Created with ❤️</p>
+    <p>Car Kiosk Page - Created by Edward</p>
   </footer>
 
-  <!-- External Libraries -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="scripts.js"></script>
 </body>
