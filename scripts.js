@@ -10,6 +10,21 @@
 }(document,'script','weatherwidget-io-js');
 
 let map;
+let locationUpdateInterval;
+
+// Date Time Updater
+function updateDateTime() {
+  const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit',
+    second: '2-digit'
+  };
+  document.getElementById('currentDateTime').textContent = new Date().toLocaleString('en-US', options);
+}
 
 // Navigation Active State
 document.getElementById('nav-links').addEventListener('click', function(e) {
@@ -42,7 +57,7 @@ function fetchTopSongs() {
     .catch(error => console.error('Error fetching top songs:', error));
 }
 
-// Replace the fetchInspirationalQuote function with:
+// Payment Quotes
 function fetchPaymentQuotes() {
   const lifeAdvice = [
     "Pro tip: Always check for toilet paper before starting a road trip.",
@@ -62,6 +77,7 @@ function fetchPaymentQuotes() {
 
 // Leaflet Map Implementation
 function initMap(lat, lng) {
+  if (map) map.remove();
   map = L.map('map-container').setView([lat, lng], 15);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -83,12 +99,7 @@ function getLocation() {
     navigator.geolocation.getCurrentPosition(position => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      
-      if (!map) {
-        initMap(lat, lng);
-      } else {
-        map.setView([lat, lng], 15);
-      }
+      initMap(lat, lng);
     }, showError);
   } else {
     alert("Geolocation is not supported by this browser.");
@@ -136,10 +147,13 @@ function showNotes() {
 // Initialization
 window.addEventListener('DOMContentLoaded', () => {
   fetchTopSongs();
-  fetchPaymentQuotes(); // Changed from inspirational quotes
+  fetchPaymentQuotes();
   showNotes();
+  getLocation();
+  setInterval(getLocation, 300000); // Update every 5 minutes
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
   
-  // Handle initial active state
   const hash = window.location.hash || '#spotify';
   document.querySelector(`a[href="${hash}"]`)?.classList.add('active');
 });
