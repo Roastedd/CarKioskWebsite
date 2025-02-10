@@ -2,7 +2,7 @@
 
 A modern vehicle interface system providing essential driving features with an iOS-inspired design. Perfect for in-car tablets or smart dashboards.
 
-![Car Kiosk Interface Preview](screenshot.jpg) *Add your screenshot here*
+![Car Kiosk Interface Preview](screenshot.jpg)
 
 ## Features ✨
 
