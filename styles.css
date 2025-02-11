@@ -365,6 +365,44 @@ section h2 {
   backdrop-filter: blur(10px);
 }
 
+/* Brightness Control */
+.brightness-control {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.1);
+  padding: 1rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.brightness-control input[type="range"] {
+  width: 150px;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.brightness-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.brightness-control .fa-sun {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
 @media (max-width: 768px) {
   main {
     grid-template-columns: 1fr;
