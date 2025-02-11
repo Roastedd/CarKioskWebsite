@@ -227,3 +227,25 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
   return R * c;
 }
+
+// Brightness Control (Fully Kiosk Only)
+function adjustBrightness(value) {
+  if (typeof fully !== 'undefined') {
+    try {
+      fully.setScreenBrightness(parseInt(value));
+      // Save brightness to localStorage
+      localStorage.setItem('screenBrightness', value);
+    } catch (e) {
+      console.error('Brightness control failed:', e);
+    }
+  }
+}
+
+// Initialize brightness on load
+function initBrightness() {
+  if (typeof fully !== 'undefined') {
+    const savedBrightness = localStorage.getItem('screenBrightness') || 255;
+    document.getElementById('brightness').value = savedBrightness;
+    fully.setScreenBrightness(parseInt(savedBrightness));
+  }
+}
