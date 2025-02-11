@@ -175,6 +175,13 @@ section h2 {
   gap: 1rem;
 }
 
+/* Larger QR Codes */
+.qr-item img {
+  width: 250px;
+  height: 250px;
+  padding: 1.2rem;
+}
+
 .qr-item-content {
   display: flex;
   flex-direction: column;
@@ -221,12 +228,51 @@ section h2 {
 }
 
 #map-container {
-  height: 300px;
+  height: 450;
   border-radius: 18px;
   overflow: hidden;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* Navigation Tools */
+.navigation-tools {
+  margin-bottom: 1.5rem;
+}
+
+.address-input {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.address-input input {
+  flex: 1;
+  padding: 0.8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+.distance-result {
+  margin-top: 1rem;
+}
+
+.distance-card {
+  background: rgba(255,255,255,0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.distance-card i {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
 
 .ios-list {
   background: var(--card-background-color);
@@ -314,10 +360,15 @@ section h2 {
 }
 
 #currentDateTime {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.95);
   margin: 0.5rem 0;
   font-weight: 400;
+  text-align: center;
+  background: rgba(255,255,255,0.05);
+  padding: 0.8rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
 }
 
 @media (max-width: 768px) {
@@ -348,5 +399,18 @@ section h2 {
   .spotify-button {
     font-size: 1rem;
     padding: 1.2rem;
+  }
+  .qr-item img {
+    width: 220px;
+    height: 220px;
+  }
+  
+  #map-container {
+    height: 400px;
+  }
+  
+  #currentDateTime {
+    font-size: 1.1rem;
+    padding: 0.6rem;
   }
 }
