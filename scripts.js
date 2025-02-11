@@ -153,6 +153,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setInterval(getLocation, 300000); // Update every 5 minutes
   updateDateTime();
   setInterval(updateDateTime, 1000);
+  initBrightness();
   
   const hash = window.location.hash || '#spotify';
   document.querySelector(`a[href="${hash}"]`)?.classList.add('active');
