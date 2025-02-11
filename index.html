@@ -22,7 +22,13 @@
     <h1>My Car Kiosk</h1>
     <div id="currentDateTime"></div>
     <p>Quick Access to Spotify, Payments, Weather, and More!</p>
+    <section id="brightness-control" class="brightness-control">
+      <i class="fas fa-sun"></i>
+      <input type="range" id="brightness" min="20" max="255" value="255" 
+         oninput="adjustBrightness(this.value)">
+    </section>
   </header>
+  
 
   <main>
     <section id="spotify">
