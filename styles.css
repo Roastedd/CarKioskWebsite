@@ -175,12 +175,6 @@ section h2 {
   gap: 1rem;
 }
 
-/* Larger QR Codes */
-.qr-item img {
-  width: 250px;
-  height: 250px;
-  padding: 1.2rem;
-}
 
 .qr-item-content {
   display: flex;
@@ -217,12 +211,12 @@ section h2 {
 }
 
 .qr-item img {
-  width: 200px; /* Increased from 160px */
-  height: 200px;
+  width: 250px; /* Increased from 160px */
+  height: 275px;
   margin: 0 auto;
   border-radius: 12px;
   background: white;
-  padding: 1rem;
+  padding: 1.2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
