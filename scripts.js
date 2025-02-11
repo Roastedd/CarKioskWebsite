@@ -168,3 +168,62 @@ window.addEventListener('hashchange', () => {
     }
   });
 });
+
+// Enhanced Map Functions
+let destinationMarker;
+
+async function calculateRoute() {
+  const address = document.getElementById('destination').value;
+  if (!address) return;
+
+  try {
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+    const data = await response.json();
+    
+    if (data.length > 0) {
+      const destLat = parseFloat(data[0].lat);
+      const destLon = parseFloat(data[0].lon);
+      
+      if (destinationMarker) map.removeLayer(destinationMarker);
+      
+      destinationMarker = L.marker([destLat, destLon], {
+        icon: L.icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41]
+        })
+      }).addTo(map);
+
+      const distance = calculateDistance(
+        map.getCenter().lat,
+        map.getCenter().lng,
+        destLat,
+        destLon
+      );
+
+      document.getElementById('distanceResult').innerHTML = `
+        <div class="distance-card">
+          <i class="fas fa-road"></i>
+          <div>
+            <h4>Distance to Destination</h4>
+            <p>${distance.toFixed(1)} miles (straight line)</p>
+          </div>
+        </div>
+      `;
+    }
+  } catch (error) {
+    console.error('Geocoding error:', error);
+  }
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 3958.8; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  return R * c;
+}
