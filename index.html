@@ -73,7 +73,16 @@
     </section>
 
     <section id="location">
-      <h2><i class="fas fa-map-marker-alt"></i>Current Location</h2>
+      <h2><i class="fas fa-map-marker-alt"></i>Navigation</h2>
+      <div class="navigation-tools">
+        <div class="address-input">
+          <input type="text" id="destination" placeholder="Enter destination address">
+          <button onclick="calculateRoute()">
+            <i class="fas fa-route"></i> Get Directions
+          </button>
+        </div>
+        <div id="distanceResult" class="distance-result"></div>
+      </div>
       <div id="map-container"></div>
     </section>
     
