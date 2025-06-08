@@ -2,6 +2,8 @@
 
 A modern vehicle interface system providing essential driving features with an iOS-inspired design. Perfect for in-car tablets or smart dashboards.
 
+**Version 2.0** - Enhanced with improved accessibility, error handling, and PWA capabilities.
+
 ![Car Kiosk Interface Preview](screenshot.jpg)
 
 ## Features ✨
@@ -36,6 +38,32 @@ A modern vehicle interface system providing essential driving features with an i
 - Live date/time display
 - Auto-updating every second
 - Clean header presentation
+
+## New in Version 2.0 🆕
+
+### 🌟 Enhanced User Experience
+- **Loading States**: Beautiful loading animations and progress indicators
+- **Error Handling**: Comprehensive error notifications with user-friendly messages
+- **Offline Support**: PWA capabilities with service worker caching
+- **Performance**: Debounced API calls and optimized resource loading
+
+### ♿ Accessibility Improvements
+- **Screen Reader Support**: Full ARIA labels and semantic HTML
+- **Keyboard Navigation**: Complete keyboard accessibility for all features
+- **Focus Management**: Visible focus indicators and logical tab order
+- **High Contrast**: Support for high contrast and reduced motion preferences
+
+### 📱 Progressive Web App Features
+- **Installable**: Can be installed on mobile devices and desktops
+- **Offline Mode**: Core functionality works without internet
+- **Fullscreen**: Optimized for car dashboard displays
+- **Background Updates**: Automatic updates when connection is restored
+
+### 🛡️ Security & Reliability
+- **Input Sanitization**: XSS protection for user inputs
+- **Error Recovery**: Graceful fallbacks for failed API calls
+- **Data Validation**: Comprehensive input validation
+- **Cache Management**: Smart caching with automatic cleanup
 
 ## Installation ⚙️
 

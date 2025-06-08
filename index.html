@@ -4,47 +4,81 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Car Kiosk</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta name="description" content="Modern in-car interface for music, payments, weather, and navigation">
+  <meta name="theme-color" content="#1DB954">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <nav>
+  <!-- Loading overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner">
+      <i class="fas fa-car fa-2x"></i>
+      <p>Starting your car kiosk...</p>
+    </div>
+  </div>
+
+  <!-- Error notification -->
+  <div id="error-notification" class="error-notification" role="alert" aria-live="polite">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span id="error-message"></span>
+    <button onclick="hideError()" aria-label="Close error">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <nav role="navigation" aria-label="Main navigation">
     <div class="nav-links" id="nav-links">
-      <a href="#spotify" class="active"><i class="fas fa-music"></i>Spotify</a>
-      <a href="#payment"><i class="fas fa-qrcode"></i>Payments</a>
-      <a href="#weather"><i class="fas fa-cloud-sun"></i>Weather</a>
-      <a href="#location"><i class="fas fa-map-marker-alt"></i>Location</a>
-      <a href="#notes"><i class="fas fa-comment-alt"></i>Notes</a>
+      <a href="#spotify" class="active" role="tab" aria-controls="spotify" aria-selected="true">
+        <i class="fas fa-music" aria-hidden="true"></i>Spotify
+      </a>
+      <a href="#payment" role="tab" aria-controls="payment" aria-selected="false">
+        <i class="fas fa-qrcode" aria-hidden="true"></i>Payments
+      </a>
+      <a href="#weather" role="tab" aria-controls="weather" aria-selected="false">
+        <i class="fas fa-cloud-sun" aria-hidden="true"></i>Weather
+      </a>
+      <a href="#location" role="tab" aria-controls="location" aria-selected="false">
+        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>Location
+      </a>
+      <a href="#notes" role="tab" aria-controls="notes" aria-selected="false">
+        <i class="fas fa-comment-alt" aria-hidden="true"></i>Notes
+      </a>
     </div>
   </nav>
 
   <header>
     <h1>My Car Kiosk</h1>
-    <div id="currentDateTime"></div>
+    <div id="currentDateTime" aria-live="polite"></div>
     <p>Quick Access to Spotify, Payments, Weather, and More!</p>
     <section id="brightness-control" class="brightness-control">
-      <i class="fas fa-sun"></i>
+      <i class="fas fa-sun" aria-hidden="true"></i>
       <input type="range" id="brightness" min="20" max="255" value="255" 
-         oninput="adjustBrightness(this.value)">
+         oninput="adjustBrightness(this.value)" 
+         aria-label="Screen brightness control">
     </section>
   </header>
   
-
-  <main>
-    <section id="spotify">
-      <h2><i class="fas fa-music"></i>Music</h2>
-      <button class="spotify-button" onclick="window.location.href='spotify://'">
-        <i class="fab fa-spotify"></i> Open Spotify
+  <main role="main">
+    <section id="spotify" role="tabpanel" aria-labelledby="spotify-heading">
+      <h2 id="spotify-heading"><i class="fas fa-music" aria-hidden="true"></i>Music</h2>
+      <button class="spotify-button" onclick="openSpotify()" type="button">
+        <i class="fab fa-spotify" aria-hidden="true"></i> Open Spotify
       </button>
       <div class="trending-section">
         <h3>Top 10 Songs in US</h3>
-        <div class="ios-list" id="top-songs"></div>
+        <div class="loading-placeholder" id="songs-loading">
+          <i class="fas fa-spinner fa-spin"></i> Loading top songs...
+        </div>
+        <div class="ios-list" id="top-songs" role="list" aria-label="Top 10 songs"></div>
       </div>
     </section>     
 
-    <section id="payment">
-      <h2><i class="fas fa-qrcode"></i>Payment QR Codes</h2>
-      <div class="payment-advice"></div>
+    <section id="payment" role="tabpanel" aria-labelledby="payment-heading">
+      <h2 id="payment-heading"><i class="fas fa-qrcode" aria-hidden="true"></i>Payment QR Codes</h2>
+      <div class="payment-advice" role="complementary"></div>
       <div class="qr-container">
         <div class="qr-item">
           <div class="qr-item-content">
@@ -53,7 +87,7 @@
               <p>@LakeBreezy</p>
               <p>Scan to support the journey</p>
             </div>
-            <img src="venmo-qr.png" alt="Venmo QR Code">
+            <img src="venmo-qr.png" alt="Venmo QR Code for @LakeBreezy" loading="lazy">
           </div>
         </div>
         <div class="qr-item">
@@ -61,55 +95,70 @@
             <div class="qr-text">
               <h4>Zelle Payments</h4>
             </div>
-            <img src="zelle-qr.png" alt="Zelle QR Code">
+            <img src="zelle-qr.png" alt="Zelle QR Code for payments" loading="lazy">
           </div>
         </div>
       </div>
     </section>
 
-    <section id="weather">
-      <h2><i class="fas fa-cloud-sun"></i>Weather</h2>
+    <section id="weather" role="tabpanel" aria-labelledby="weather-heading">
+      <h2 id="weather-heading"><i class="fas fa-cloud-sun" aria-hidden="true"></i>Weather</h2>
       <div class="weather-container">
         <a class="weatherwidget-io" href="https://forecast7.com/en/37d77n122d42/san-francisco/?unit=us" 
-           data-label_1="SAN FRANCISCO" data-label_2="WEATHER" data-theme="dark"></a>
+           data-label_1="SAN FRANCISCO" data-label_2="WEATHER" data-theme="dark"
+           aria-label="San Francisco weather forecast"></a>
         <a class="weatherwidget-io" href="https://forecast7.com/en/36d75n119d77/fresno/?unit=us" 
-           data-label_1="FRESNO" data-label_2="WEATHER" data-theme="dark"></a>
+           data-label_1="FRESNO" data-label_2="WEATHER" data-theme="dark"
+           aria-label="Fresno weather forecast"></a>
         <a class="weatherwidget-io" href="https://forecast7.com/en/37d30n120d48/merced/?unit=us" 
-           data-label_1="MERCED" data-label_2="WEATHER" data-theme="dark"></a>
+           data-label_1="MERCED" data-label_2="WEATHER" data-theme="dark"
+           aria-label="Merced weather forecast"></a>
       </div>
     </section>
 
-    <section id="location">
-      <h2><i class="fas fa-map-marker-alt"></i>Navigation</h2>
+    <section id="location" role="tabpanel" aria-labelledby="location-heading">
+      <h2 id="location-heading"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>Navigation</h2>
       <div class="navigation-tools">
         <div class="address-input">
-          <input type="text" id="destination" placeholder="Enter destination address">
-          <button onclick="calculateRoute()">
-            <i class="fas fa-route"></i> Get Directions
+          <label for="destination" class="sr-only">Destination address</label>
+          <input type="text" id="destination" placeholder="Enter destination address"
+                 aria-describedby="destination-help">
+          <button onclick="calculateRoute()" type="button" id="get-directions-btn">
+            <i class="fas fa-route" aria-hidden="true"></i> Get Directions
           </button>
         </div>
-        <div id="distanceResult" class="distance-result"></div>
+        <div id="destination-help" class="sr-only">Enter an address to calculate distance and get directions</div>
+        <div id="distanceResult" class="distance-result" aria-live="polite"></div>
       </div>
-      <div id="map-container"></div>
+      <div class="loading-placeholder" id="map-loading">
+        <i class="fas fa-spinner fa-spin"></i> Loading map...
+      </div>
+      <div id="map-container" role="application" aria-label="Interactive map showing your location"></div>
     </section>
     
-    <section id="notes">
-      <h2><i class="fas fa-comment-alt"></i>Passenger Notes</h2>
+    <section id="notes" role="tabpanel" aria-labelledby="notes-heading">
+      <h2 id="notes-heading"><i class="fas fa-comment-alt" aria-hidden="true"></i>Passenger Notes</h2>
       <div class="note-form">
-        <textarea id="note-text" placeholder="Leave a note for your driver..."></textarea>
-        <button onclick="saveNote()">
-          <i class="fas fa-paper-plane"></i> Send Note
+        <label for="note-text" class="sr-only">Write a note for your driver</label>
+        <textarea id="note-text" placeholder="Leave a note for your driver..."
+                  aria-describedby="note-help" maxlength="500"></textarea>
+        <div id="note-help" class="character-count">
+          <span id="char-count">0</span>/500 characters
+        </div>
+        <button onclick="saveNote()" type="button">
+          <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Note
         </button>
       </div>
-      <div class="notes-list" id="notes-list"></div>
+      <div class="notes-list" id="notes-list" role="log" aria-label="Recent passenger notes"></div>
     </section>
   </main>
 
-  <footer>
+  <footer role="contentinfo">
     <p>Car Kiosk Page - Created by Edward</p>
+    <p class="version">Version 2.0 - Enhanced Experience</p>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="scripts.js"></script>
 </body>
 </html>
